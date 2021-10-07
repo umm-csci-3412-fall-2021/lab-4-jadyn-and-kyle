@@ -66,12 +66,12 @@ int main(int argc, char *argv[]) {
       outputFile = stdout;
     }
     else if(argc==2){
-      inputFile = fopen("argv[1]", "r");
+      inputFile = fopen(argv[1], "r");
       outputFile = stdout;
     }
     else if(argc==3){
-      inputFile = fopen("argv[1]", "r");
-      outputFile = fopen("argv[2]", "r+");
+      inputFile = fopen(argv[1], "r");
+      outputFile = fopen(argv[2], "w+");
     }
     disemvowel(inputFile, outputFile);
     
