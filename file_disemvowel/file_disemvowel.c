@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #define BUF_SIZE 1024
 
@@ -20,12 +21,12 @@ int copy_non_vowels(int num_chars, char* in_buf, char* out_buf) {
      */
      int x = 0;
      for(int i=0; i<num_chars; i++) {
-     	if(!isVowel(in_buf[i])) {
+     	if(!is_vowel(in_buf[i])) {
 		out_buf[x] = in_buf[i];
 		x++;
 	}
      }
-     return out_buf;
+     return x;
 }
 
 void disemvowel(FILE* inputFile, FILE* outputFile) {
@@ -35,23 +36,20 @@ void disemvowel(FILE* inputFile, FILE* outputFile) {
      * in a buffer of data, copy the non-vowels to the output buffer, and
      * use fwrite to write that out.
      */
-     int inlen = strlen(str);
-     int outlen=0;
-     for(int i=0; i<inlen; i++) {
-	     if(!isVowel(str[i])) {
-	     	outlen++;
-	     }
+     char* input_buffer;
+     input_buffer = (char*) calloc(BUF_SIZE, sizeof(char));
+     char* output_buffer;
+     output_buffer = (char*) calloc(BUF_SIZE, sizeof(char));
+     int num_chars = 1;
+     int nonvowels;
+     while(num_chars!=0) {
+     	num_chars = fread(input_buffer, sizeof(char), BUF_SIZE, inputFile);
+        nonvowels = copy_non_vowels(num_chars, input_buffer, output_buffer);
+        fwrite(output_buffer, sizeof(char), nonvowels, outputFile);	
      }
-     char* output = (char*) calloc(outlen + 1, sizeof(char));
-     int outpos = 0;
-     for(int i=0; outpos < outlen; i++){
-	     if(!isVowel(str[i])){
-		     output[outpos++]=str[i];
-	     }
-     }
-     output[outlen] = '\0';
-
-     return output;
+     
+     free(input_buffer);
+     free(output_buffer);
 }
 
 int main(int argc, char *argv[]) {
