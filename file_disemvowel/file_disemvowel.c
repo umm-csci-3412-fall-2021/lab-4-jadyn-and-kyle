@@ -56,13 +56,24 @@ int main(int argc, char *argv[]) {
     // This sets these to `stdin` and `stdout` by default.
     // You then need to set them to user specified files when the user
     // provides files names as command line arguments.
-    FILE *inputFile = stdin;
-    FILE *outputFile = stdout;
+    FILE *inputFile;
+    FILE *outputFile;
 
     // Code that processes the command line arguments
     // and sets up inputFile and outputFile.
-
+    if(argc==1){
+      inputFile = stdin;
+      outputFile = stdout;
+    }
+    else if(argc==2){
+      inputFile = fopen("argv[1]", "r");
+      outputFile = stdout;
+    }
+    else if(argc==3){
+      inputFile = fopen("argv[1]", "r");
+      outputFile = fopen("argv[2]", "r+");
+    }
     disemvowel(inputFile, outputFile);
-
+    
     return 0;
 }
