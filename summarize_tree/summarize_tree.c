@@ -59,7 +59,7 @@ void process_directory(const char* path) {
      }
      chdir("..");
    }
-   closedir(path);
+   closedir(directory);
 }
 
 void process_file(const char* path) {
@@ -67,6 +67,7 @@ void process_file(const char* path) {
    * Update the number of regular files.
    * This is as simple as it seems. :-)
    */
+   num_reg++;
 }
 
 void process_path(const char* path) {
