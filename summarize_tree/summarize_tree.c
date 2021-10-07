@@ -49,6 +49,17 @@ void process_directory(const char* path) {
    * with a matching call to chdir() to move back out of it when you're
    * done.
    */
+   
+   DIR *directory = opendir(path);
+   if(directory != null){
+     chdir(path);
+     while(readdir(directory)!=null || strcmp(readdir(directory)->d_name, ".") != 0 || strcmp(readdir(directory)->d_name, "..") != 0){
+     	process_path(readdir(directory)->d_name);
+	num_dirs++;
+     }
+     chdir("..");
+   }
+   closedir(path);
 }
 
 void process_file(const char* path) {
