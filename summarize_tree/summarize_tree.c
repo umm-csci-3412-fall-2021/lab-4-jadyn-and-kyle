@@ -50,16 +50,22 @@ void process_directory(const char* path) {
    * done.
    */
    
-   DIR *directory = opendir(path);
-   if(directory != NULL){
-     chdir(path);
-     while(readdir(directory)!=NULL || strcmp(readdir(directory)->d_name, ".") != 0 || strcmp(readdir(directory)->d_name, "..") != 0){
-     	process_path(readdir(directory)->d_name);
-	num_dirs++;
+   DIR *directory;
+   struct dirent *dir;
+   chdir(path);
+   directory=opendir(".");
+   if(directory == NULL){
+	   return;
+   }
+
+   num_dirs++;
+   while((dir = readdir(directory)) != NULL){
+     if(strcmp(dir ->d_name, ".") && strcmp(dir ->d_name, "..") != 0){
+     	process_path(dir->d_name);
      }
-     chdir("..");
    }
    closedir(directory);
+   chdir("..");
 }
 
 void process_file(const char* path) {
