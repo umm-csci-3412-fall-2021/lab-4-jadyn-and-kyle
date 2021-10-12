@@ -1,13 +1,13 @@
-#!bin/bash
+#!/usr/bin/env bash
 
 path=$1
+ 
+cd "$path" || exit
 
-countDir=$(find $path -type d | wc -l | xargs)
+countDir=$(find . -type d | wc -l) 
+countFile=$(find . -type f | wc -l)
 
-echo "There are "$countDir" directories."
-
-countFile=$(find $path -type f | wc -l | xargs)
-
-echo "And, there are "$countFile" regular files."
+echo "There were $countDir directories."
+echo "There were $countFile regular files."
 
 
